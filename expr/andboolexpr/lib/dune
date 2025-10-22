@@ -1,0 +1,3 @@
+(library
+ (name andboolexprLib))
+\n(menhir (modules parser))\n\n(ocamllex lexer)
