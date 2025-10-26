@@ -1,0 +1,3 @@
+(library
+ (name arithexprLib))
+(menhir (modules parser))(ocamllex lexer)
