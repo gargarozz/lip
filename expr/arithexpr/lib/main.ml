@@ -2,6 +2,11 @@ open Ast
 
 type exprval = Bool of bool | Nat of int
 
+let string_of_val = function
+    Bool b -> if b then "true" else "false"
+  | Nat n -> string_of_int n
+
+
 let rec string_of_expr = function
     True -> "True"
   | False -> "False"
@@ -58,9 +63,6 @@ let rec trace e = try
     in e::(trace e')
   with NoRuleApplies -> [e]
 
-let string_of_val = function
-    Some b -> string_of_bool b
-  | None -> "None"
 
 
 (******************************************************************************)
@@ -70,8 +72,8 @@ let string_of_val = function
 exception TypeError of string
 
 let rec eval = function
-    True -> true
-  | False -> false
+    True -> Bool true
+  | False -> Bool false
   | Not(e) -> (match eval e with
       Bool b -> Bool(not b)
       |_ -> raise (TypeError "Not on nat")
@@ -81,7 +83,7 @@ let rec eval = function
       |_ -> raise (TypeError "And on nat")
     )
   | Or(e1,e2) -> (match (eval e1, eval e2) with
-      (Bool b2, Bool b2) -> Bool (b1 || b2)
+      (Bool b1, Bool b2) -> Bool (b1 || b2)
       |_ -> raise (TypeError "Or on nat")
     )
   | If(e0,e1,e2) -> (match eval e0 with
