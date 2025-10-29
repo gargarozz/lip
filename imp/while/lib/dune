@@ -1,0 +1,3 @@
+(library
+ (name whileLib))
+(menhir (modules parser))(ocamllex lexer)
